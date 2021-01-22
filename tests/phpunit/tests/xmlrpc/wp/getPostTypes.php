@@ -4,12 +4,19 @@
  * @group xmlrpc
  */
 class Tests_XMLRPC_wp_getPostTypes extends WP_XMLRPC_UnitTestCase {
+
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPostTypes
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_getPostTypes( array( 1, 'username', 'password', 'post' ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPostTypes
+	 */
 	function test_incapable_user() {
 		$this->make_user_by_role( 'subscriber' );
 
@@ -19,6 +26,9 @@ class Tests_XMLRPC_wp_getPostTypes extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 0, count( $result ) );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPostTypes
+	 */
 	function test_capable_user() {
 		$this->make_user_by_role( 'editor' );
 
@@ -28,6 +38,9 @@ class Tests_XMLRPC_wp_getPostTypes extends WP_XMLRPC_UnitTestCase {
 		$this->assertGreaterThan( 0, count( $result ) );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPostTypes
+	 */
 	function test_simple_filter() {
 		$this->make_user_by_role( 'editor' );
 

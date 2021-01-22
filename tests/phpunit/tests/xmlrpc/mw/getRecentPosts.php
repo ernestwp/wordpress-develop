@@ -22,6 +22,9 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase {
 		);
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_getRecentPosts
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->mw_getRecentPosts( array( 1, 'username', 'password' ) );
 		$this->assertIXRError( $result );
@@ -30,6 +33,7 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase {
 
 	/**
 	 * @ticket 22320
+	 * @covers wp_xmlrpc_server::mw_getRecentPosts
 	 */
 	function test_no_editing_privileges() {
 		$this->make_user_by_role( 'subscriber' );
@@ -39,6 +43,9 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_getRecentPosts
+	 */
 	function test_no_editable_posts() {
 		wp_delete_post( self::$post_id, true );
 
@@ -47,6 +54,9 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 0, count( $result ) );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_getRecentPosts
+	 */
 	function test_valid_post() {
 		add_theme_support( 'post-thumbnails' );
 
@@ -94,6 +104,9 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase {
 		remove_theme_support( 'post-thumbnails' );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_getRecentPosts
+	 */
 	function test_post_thumbnail() {
 		add_theme_support( 'post-thumbnails' );
 
@@ -119,6 +132,9 @@ class Tests_XMLRPC_mw_getRecentPosts extends WP_XMLRPC_UnitTestCase {
 		remove_theme_support( 'post-thumbnails' );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_getRecentPosts
+	 */
 	function test_date() {
 		$this->make_user_by_role( 'editor' );
 

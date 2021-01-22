@@ -5,12 +5,18 @@
  */
 class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_newPost( array( 1, 'username', 'password', array() ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_incapable_user() {
 		$this->make_user_by_role( 'subscriber' );
 
@@ -19,6 +25,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_no_content() {
 		$this->make_user_by_role( 'author' );
 
@@ -28,6 +37,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 'Content, title, and excerpt are empty.', $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_basic_content() {
 		$this->make_user_by_role( 'author' );
 
@@ -37,6 +49,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertStringMatchesFormat( '%d', $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_ignore_id() {
 		$this->make_user_by_role( 'author' );
 
@@ -49,6 +64,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertNotEquals( '103948', $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_capable_publish() {
 		$this->make_user_by_role( 'author' );
 
@@ -60,6 +78,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertNotIXRError( $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_incapable_publish() {
 		$this->make_user_by_role( 'contributor' );
 
@@ -72,6 +93,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_capable_private() {
 		$this->make_user_by_role( 'editor' );
 
@@ -83,6 +107,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertNotIXRError( $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_incapable_private() {
 		$this->make_user_by_role( 'contributor' );
 
@@ -95,6 +122,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_capable_other_author() {
 		$other_author_id = $this->make_user_by_role( 'author' );
 		$this->make_user_by_role( 'editor' );
@@ -107,6 +137,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertNotIXRError( $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_incapable_other_author() {
 		$other_author_id = $this->make_user_by_role( 'author' );
 		$this->make_user_by_role( 'contributor' );
@@ -120,6 +153,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_invalid_author() {
 		$this->make_user_by_role( 'editor' );
 
@@ -132,6 +168,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 404, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_empty_author() {
 		$my_author_id = $this->make_user_by_role( 'author' );
 
@@ -145,6 +184,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 'Test', $out->post_title );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_post_thumbnail() {
 		add_theme_support( 'post-thumbnails' );
 
@@ -165,6 +207,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		remove_theme_support( 'post-thumbnails' );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_invalid_post_status() {
 		$this->make_user_by_role( 'author' );
 
@@ -177,6 +222,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 'draft', get_post_status( $result ) );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_incapable_sticky() {
 		$this->make_user_by_role( 'contributor' );
 
@@ -189,6 +237,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_capable_sticky() {
 		$this->make_user_by_role( 'editor' );
 
@@ -201,6 +252,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertTrue( is_sticky( $result ) );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_private_sticky() {
 		$this->make_user_by_role( 'editor' );
 
@@ -214,6 +268,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_post_format() {
 		$this->make_user_by_role( 'editor' );
 
@@ -226,6 +283,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 'quote', get_post_format( $result ) );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_invalid_post_format() {
 		$this->make_user_by_role( 'editor' );
 
@@ -238,6 +298,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertEquals( '', get_post_format( $result ) );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_invalid_taxonomy() {
 		$this->make_user_by_role( 'editor' );
 
@@ -262,6 +325,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result2->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_invalid_term_id() {
 		$this->make_user_by_role( 'editor' );
 
@@ -276,6 +342,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_terms() {
 		$this->make_user_by_role( 'editor' );
 
@@ -301,6 +370,9 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertContains( $tag3['term_id'], $post_tags );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
+	 */
 	function test_terms_names() {
 		$this->make_user_by_role( 'editor' );
 
@@ -342,6 +414,7 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
 	 * @ticket 28601
 	 */
 	function test_invalid_post_date_does_not_fatal() {
@@ -359,6 +432,7 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
 	 * @ticket 28601
 	 */
 	function test_invalid_post_date_gmt_does_not_fatal() {
@@ -376,6 +450,7 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
 	 * @ticket 28601
 	 */
 	function test_valid_string_post_date() {
@@ -393,6 +468,7 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
 	 * @ticket 28601
 	 */
 	function test_valid_string_post_date_gmt() {
@@ -410,6 +486,7 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
 	 * @ticket 28601
 	 */
 	function test_valid_IXR_post_date() {
@@ -427,6 +504,7 @@ class Tests_XMLRPC_wp_newPost extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_newPost
 	 * @ticket 28601
 	 */
 	function test_valid_IXR_post_date_gmt() {

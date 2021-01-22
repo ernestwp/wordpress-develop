@@ -1,3 +1,6 @@
+# gitignore idea settings
+.idea
+
 # gitignore file for WordPress Core
 
 # Configuration files with possibly sensitive information

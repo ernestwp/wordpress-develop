@@ -6,12 +6,18 @@
  */
 class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase {
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getUsers
+	 */
 	function test_invalid_username_password() {
 		$results = $this->myxmlrpcserver->wp_getUsers( array( 1, 'username', 'password' ) );
 		$this->assertIXRError( $results );
 		$this->assertSame( 403, $results->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getUsers
+	 */
 	function test_incapable_user() {
 		$this->make_user_by_role( 'subscriber' );
 
@@ -20,6 +26,9 @@ class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $results->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getUsers
+	 */
 	function test_capable_user() {
 		$this->make_user_by_role( 'administrator' );
 
@@ -42,6 +51,9 @@ class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase {
 		$this->assertInternalType( 'array', $result[0]['roles'] );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getUsers
+	 */
 	function test_invalid_role() {
 		$administrator_id = $this->make_user_by_role( 'administrator' );
 		if ( is_multisite() ) {
@@ -54,6 +66,9 @@ class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 403, $results->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getUsers
+	 */
 	function test_role_filter() {
 		$author_id        = $this->make_user_by_role( 'author' );
 		$editor_id        = $this->make_user_by_role( 'editor' );
@@ -76,6 +91,9 @@ class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase {
 		$this->assertCount( 3, array_intersect( array( $author_id, $editor_id, $administrator_id ), wp_list_pluck( $results2, 'user_id' ) ) );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getUsers
+	 */
 	function test_paging_filters() {
 		$administrator_id = $this->make_user_by_role( 'administrator' );
 		if ( is_multisite() ) {
@@ -105,6 +123,9 @@ class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 0, count( array_diff( $user_ids, $users_found ) ) );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getUsers
+	 */
 	function test_order_filters() {
 		$this->make_user_by_role( 'administrator' );
 

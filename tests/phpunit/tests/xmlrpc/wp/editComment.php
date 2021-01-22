@@ -5,6 +5,9 @@
  */
 class Tests_XMLRPC_wp_editComment extends WP_XMLRPC_UnitTestCase {
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editComment
+	 */
 	function test_author_can_edit_own_comment() {
 		$author_id = $this->make_user_by_role( 'author' );
 		$post_id   = self::factory()->post->create(
@@ -38,6 +41,9 @@ class Tests_XMLRPC_wp_editComment extends WP_XMLRPC_UnitTestCase {
 		$this->assertTrue( $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editComment
+	 */
 	function test_author_cannot_edit_others_comment() {
 		$this->make_user_by_role( 'author' );
 		$editor_id = $this->make_user_by_role( 'editor' );
@@ -63,6 +69,9 @@ class Tests_XMLRPC_wp_editComment extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Sorry, you are not allowed to moderate or edit this comment.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editComment
+	 */
 	function test_trash_comment() {
 		$this->make_user_by_role( 'administrator' );
 		$post_id = self::factory()->post->create();

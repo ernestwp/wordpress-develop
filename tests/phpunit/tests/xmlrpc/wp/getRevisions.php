@@ -5,12 +5,18 @@
  */
 class Tests_XMLRPC_wp_getRevisions extends WP_XMLRPC_UnitTestCase {
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getRevisions
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_getRevisions( array( 1, 'username', 'password', 0 ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getRevisions
+	 */
 	function test_incapable_user() {
 		$this->make_user_by_role( 'subscriber' );
 
@@ -21,6 +27,9 @@ class Tests_XMLRPC_wp_getRevisions extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getRevisions
+	 */
 	function test_capable_user() {
 		$this->make_user_by_role( 'editor' );
 
@@ -29,6 +38,9 @@ class Tests_XMLRPC_wp_getRevisions extends WP_XMLRPC_UnitTestCase {
 		$this->assertNotIXRError( $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getRevisions
+	 */
 	function test_revision_count() {
 		$this->make_user_by_role( 'editor' );
 
@@ -57,6 +69,7 @@ class Tests_XMLRPC_wp_getRevisions extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_getRevisions
 	 * @ticket 22687
 	 */
 	function test_revision_count_for_auto_draft_post_creation() {

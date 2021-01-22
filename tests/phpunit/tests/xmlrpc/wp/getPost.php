@@ -28,12 +28,18 @@ class Tests_XMLRPC_wp_getPost extends WP_XMLRPC_UnitTestCase {
 		$this->post_custom_field['id'] = add_post_meta( $this->post_id, $this->post_custom_field['key'], $this->post_custom_field['value'] );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPost
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_getPost( array( 1, 'username', 'password', 1 ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPost
+	 */
 	function test_valid_post() {
 		add_theme_support( 'post-thumbnails' );
 
@@ -79,6 +85,9 @@ class Tests_XMLRPC_wp_getPost extends WP_XMLRPC_UnitTestCase {
 		remove_theme_support( 'post-thumbnails' );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPost
+	 */
 	function test_no_fields() {
 		$fields = array();
 		$result = $this->myxmlrpcserver->wp_getPost( array( 1, 'author', 'author', $this->post_id, $fields ) );
@@ -89,6 +98,9 @@ class Tests_XMLRPC_wp_getPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( array( 'post_id' ), array_keys( $result ) );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPost
+	 */
 	function test_default_fields() {
 		$result = $this->myxmlrpcserver->wp_getPost( array( 1, 'author', 'author', $this->post_id ) );
 		$this->assertNotIXRError( $result );
@@ -99,6 +111,9 @@ class Tests_XMLRPC_wp_getPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertArrayHasKey( 'custom_fields', $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPost
+	 */
 	function test_date() {
 		$fields = array( 'post' );
 		$result = $this->myxmlrpcserver->wp_getPost( array( 1, 'author', 'author', $this->post_id, $fields ) );
@@ -120,6 +135,7 @@ class Tests_XMLRPC_wp_getPost extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_getPost
 	 * @ticket 21308
 	 */
 	function test_valid_page() {

@@ -36,12 +36,18 @@ class Tests_XMLRPC_wp_getMediaItem extends WP_XMLRPC_UnitTestCase {
 		parent::tearDown();
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getMediaItem
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_getMediaItem( array( 1, 'username', 'password', 0 ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getMediaItem
+	 */
 	function test_valid_media_item() {
 		$this->make_user_by_role( 'author' );
 

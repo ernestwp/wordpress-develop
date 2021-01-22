@@ -6,12 +6,18 @@
  */
 class Tests_XMLRPC_wp_getProfile extends WP_XMLRPC_UnitTestCase {
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getProfile
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_getProfile( array( 1, 'username', 'password' ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getProfile
+	 */
 	function test_subscriber() {
 		$subscriber_id = $this->make_user_by_role( 'subscriber' );
 
@@ -21,6 +27,9 @@ class Tests_XMLRPC_wp_getProfile extends WP_XMLRPC_UnitTestCase {
 		$this->assertContains( 'subscriber', $result['roles'] );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getProfile
+	 */
 	function test_administrator() {
 		$administrator_id = $this->make_user_by_role( 'administrator' );
 
@@ -30,6 +39,9 @@ class Tests_XMLRPC_wp_getProfile extends WP_XMLRPC_UnitTestCase {
 		$this->assertContains( 'administrator', $result['roles'] );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getProfile
+	 */
 	function test_arbitrary_fields() {
 		$editor_id = $this->make_user_by_role( 'editor' );
 

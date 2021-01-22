@@ -5,12 +5,18 @@
  */
 class Tests_XMLRPC_wp_getTaxonomies extends WP_XMLRPC_UnitTestCase {
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTaxonomies
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_getTaxonomies( array( 1, 'username', 'password' ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTaxonomies
+	 */
 	function test_taxonomy_validated() {
 		$this->make_user_by_role( 'editor' );
 

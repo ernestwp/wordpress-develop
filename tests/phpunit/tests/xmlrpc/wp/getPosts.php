@@ -5,6 +5,9 @@
  */
 class Tests_XMLRPC_wp_getPosts extends WP_XMLRPC_UnitTestCase {
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPosts
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_getPosts( array( 1, 'username', 'password' ) );
 		$this->assertIXRError( $result );
@@ -12,6 +15,7 @@ class Tests_XMLRPC_wp_getPosts extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_getPosts
 	 * @ticket 20991
 	 */
 	function test_incapable_user() {
@@ -27,6 +31,9 @@ class Tests_XMLRPC_wp_getPosts extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPosts
+	 */
 	function test_capable_user() {
 		$this->make_user_by_role( 'editor' );
 
@@ -34,6 +41,9 @@ class Tests_XMLRPC_wp_getPosts extends WP_XMLRPC_UnitTestCase {
 		$this->assertNotIXRError( $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPosts
+	 */
 	function test_invalid_post_type() {
 		$this->make_user_by_role( 'editor' );
 
@@ -42,6 +52,9 @@ class Tests_XMLRPC_wp_getPosts extends WP_XMLRPC_UnitTestCase {
 		$this->assertIXRError( $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPosts
+	 */
 	function test_filters() {
 		$this->make_user_by_role( 'editor' );
 
@@ -123,6 +136,9 @@ class Tests_XMLRPC_wp_getPosts extends WP_XMLRPC_UnitTestCase {
 		_unregister_post_type( $cpt_name );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPosts
+	 */
 	function test_fields() {
 		$this->make_user_by_role( 'editor' );
 		self::factory()->post->create();
@@ -147,6 +163,7 @@ class Tests_XMLRPC_wp_getPosts extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_getPosts
 	 * @ticket 21623
 	 */
 	function test_search() {

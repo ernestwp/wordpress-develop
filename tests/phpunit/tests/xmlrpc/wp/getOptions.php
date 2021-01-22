@@ -5,12 +5,18 @@
  */
 class Tests_XMLRPC_wp_getOptions extends WP_XMLRPC_UnitTestCase {
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getOptions
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_getOptions( array( 1, 'username', 'password' ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getOptions
+	 */
 	function test_valid_username_password() {
 		$this->make_user_by_role( 'subscriber' );
 
@@ -19,6 +25,9 @@ class Tests_XMLRPC_wp_getOptions extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 'WordPress', $result['software_name']['value'] );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getOptions
+	 */
 	function test_option_value() {
 		$this->make_user_by_role( 'administrator' );
 
@@ -30,6 +39,7 @@ class Tests_XMLRPC_wp_getOptions extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_getOptions
 	 * @ticket 20201
 	 */
 	function test_option_values_subscriber() {
@@ -120,6 +130,9 @@ class Tests_XMLRPC_wp_getOptions extends WP_XMLRPC_UnitTestCase {
 		$this->assertTrue( $result['default_ping_status']['readonly'] );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getOptions
+	 */
 	function test_option_values_admin() {
 		global $wp_version;
 

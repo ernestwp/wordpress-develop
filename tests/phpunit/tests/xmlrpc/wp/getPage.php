@@ -22,6 +22,9 @@ class Tests_XMLRPC_wp_getPage extends WP_XMLRPC_UnitTestCase {
 		);
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPage
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_getPage( array( 1, self::$post_id, 'username', 'password' ) );
 		$this->assertIXRError( $result );
@@ -29,6 +32,7 @@ class Tests_XMLRPC_wp_getPage extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_getPage
 	 * @ticket 20336
 	 */
 	function test_invalid_pageid() {
@@ -39,6 +43,9 @@ class Tests_XMLRPC_wp_getPage extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 404, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPage
+	 */
 	function test_valid_page() {
 		$this->make_user_by_role( 'editor' );
 
@@ -80,6 +87,9 @@ class Tests_XMLRPC_wp_getPage extends WP_XMLRPC_UnitTestCase {
 		$this->assertStringMatchesFormat( '%d', $result['wp_author_id'] );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPage
+	 */
 	function test_date() {
 		$this->make_user_by_role( 'editor' );
 

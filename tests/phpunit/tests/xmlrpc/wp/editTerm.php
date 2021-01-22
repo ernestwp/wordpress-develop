@@ -26,12 +26,18 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase {
 		);
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editTerm
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_editTerm( array( 1, 'username', 'password', 'category', 1 ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editTerm
+	 */
 	function test_empty_taxonomy() {
 		$this->make_user_by_role( 'subscriber' );
 
@@ -41,6 +47,9 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Invalid taxonomy.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editTerm
+	 */
 	function test_invalid_taxonomy() {
 		$this->make_user_by_role( 'subscriber' );
 
@@ -50,6 +59,9 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Invalid taxonomy.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editTerm
+	 */
 	function test_incapable_user() {
 		$this->make_user_by_role( 'subscriber' );
 
@@ -59,6 +71,9 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Sorry, you are not allowed to edit this term.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editTerm
+	 */
 	function test_term_not_exists() {
 		$this->make_user_by_role( 'editor' );
 
@@ -68,6 +83,9 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Invalid term ID.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editTerm
+	 */
 	function test_empty_term() {
 		$this->make_user_by_role( 'editor' );
 
@@ -77,6 +95,9 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Empty Term.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editTerm
+	 */
 	function test_empty_term_name() {
 		$this->make_user_by_role( 'editor' );
 
@@ -97,6 +118,9 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'The term name cannot be empty.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editTerm
+	 */
 	function test_parent_for_nonhierarchical() {
 		$this->make_user_by_role( 'editor' );
 
@@ -117,6 +141,9 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Cannot set parent term, taxonomy is not hierarchical.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editTerm
+	 */
 	function test_parent_empty() {
 		$this->make_user_by_role( 'editor' );
 
@@ -137,6 +164,9 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertTrue( $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editTerm
+	 */
 	function test_parent_null() {
 		$this->make_user_by_role( 'editor' );
 
@@ -161,6 +191,9 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertEquals( '0', $term->parent );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editTerm
+	 */
 	function test_parent_invalid() {
 		$this->make_user_by_role( 'editor' );
 
@@ -181,6 +214,9 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 500, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editTerm
+	 */
 	function test_parent_not_existing() {
 		$this->make_user_by_role( 'editor' );
 
@@ -202,6 +238,9 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Parent term does not exist.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editTerm
+	 */
 	function test_parent_duplicate_slug() {
 		$this->make_user_by_role( 'editor' );
 
@@ -223,6 +262,9 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( htmlspecialchars( sprintf( __( 'The slug &#8220;%s&#8221; is already in use by another term.' ), $parent_term->slug ) ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editTerm
+	 */
 	function test_edit_all_fields() {
 		$this->make_user_by_role( 'editor' );
 
@@ -240,6 +282,7 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_editTerm
 	 * @ticket 35991
 	 */
 	public function test_update_term_meta() {
@@ -280,6 +323,7 @@ class Tests_XMLRPC_wp_editTerm extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_editTerm
 	 * @ticket 35991
 	 */
 	public function test_delete_term_meta() {

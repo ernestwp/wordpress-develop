@@ -11,6 +11,9 @@ class Tests_XMLRPC_wp_uploadFile extends WP_XMLRPC_UnitTestCase {
 		parent::tearDown();
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_newMediaObject
+	 */
 	function test_valid_attachment() {
 		$this->make_user_by_role( 'editor' );
 

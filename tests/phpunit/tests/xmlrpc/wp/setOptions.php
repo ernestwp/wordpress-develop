@@ -5,6 +5,7 @@
 class Tests_XMLRPC_wp_setOptions extends WP_XMLRPC_UnitTestCase {
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_setOptions
 	 * @ticket 22936
 	 */
 	function test_set_option_no_escape_strings() {

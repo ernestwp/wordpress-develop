@@ -24,18 +24,27 @@ class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase {
 		parent::tearDown();
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getUser
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_getUser( array( 1, 'username', 'password', 1 ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getUser
+	 */
 	function test_invalid_user() {
 		$result = $this->myxmlrpcserver->wp_getUser( array( 1, 'administrator', 'administrator', 34902348908234 ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 404, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getUser
+	 */
 	function test_incapable_user() {
 		$this->make_user_by_role( 'subscriber' );
 		$editor_id = $this->make_user_by_role( 'editor' );
@@ -45,6 +54,9 @@ class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getUser
+	 */
 	function test_subscriber_self() {
 		$subscriber_id = $this->make_user_by_role( 'subscriber' );
 
@@ -53,6 +65,9 @@ class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase {
 		$this->assertEquals( $subscriber_id, $result['user_id'] );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getUser
+	 */
 	function test_valid_user() {
 		$registered_date = strtotime( '-1 day' );
 		$user_data       = array(
@@ -108,6 +123,9 @@ class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase {
 		wp_delete_user( $user_id );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getUser
+	 */
 	function test_no_fields() {
 		$editor_id = $this->make_user_by_role( 'editor' );
 
@@ -119,6 +137,9 @@ class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( $expected_fields, array_keys( $result ) );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getUser
+	 */
 	function test_basic_fields() {
 		$editor_id = $this->make_user_by_role( 'editor' );
 
@@ -133,6 +154,9 @@ class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase {
 		$this->assertSameSets( $expected_fields, $keys );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getUser
+	 */
 	function test_arbitrary_fields() {
 		$editor_id = $this->make_user_by_role( 'editor' );
 

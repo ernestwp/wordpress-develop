@@ -5,6 +5,9 @@
  */
 class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase {
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_newPost
+	 */
 	function test_invalid_username_password() {
 		$post   = array();
 		$result = $this->myxmlrpcserver->mw_newPost( array( 1, 'username', 'password', $post ) );
@@ -12,6 +15,9 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_newPost
+	 */
 	function test_incapable_user() {
 		$this->make_user_by_role( 'subscriber' );
 
@@ -21,6 +27,9 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_newPost
+	 */
 	function test_no_content() {
 		$this->make_user_by_role( 'author' );
 
@@ -31,6 +40,9 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 'Content, title, and excerpt are empty.', $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_newPost
+	 */
 	function test_basic_content() {
 		$this->make_user_by_role( 'author' );
 
@@ -40,6 +52,9 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertStringMatchesFormat( '%d', $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_newPost
+	 */
 	function test_ignore_id() {
 		$this->make_user_by_role( 'author' );
 
@@ -52,6 +67,9 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertNotEquals( '103948', $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_newPost
+	 */
 	function test_capable_publish() {
 		$this->make_user_by_role( 'author' );
 
@@ -63,6 +81,9 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertNotIXRError( $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_newPost
+	 */
 	function test_incapable_publish() {
 		$this->make_user_by_role( 'contributor' );
 
@@ -75,6 +96,9 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_newPost
+	 */
 	function test_capable_other_author() {
 		$this->make_user_by_role( 'editor' );
 		$other_author_id = $this->make_user_by_role( 'author' );
@@ -87,6 +111,9 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertNotIXRError( $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_newPost
+	 */
 	function test_incapable_other_author() {
 		$this->make_user_by_role( 'contributor' );
 		$other_author_id = $this->make_user_by_role( 'author' );
@@ -102,6 +129,7 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase {
 
 	/**
 	 * @ticket 20356
+	 * @covers wp_xmlrpc_server::mw_newPost
 	 */
 	function test_invalid_author() {
 		$this->make_user_by_role( 'editor' );
@@ -115,6 +143,9 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 404, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_newPost
+	 */
 	function test_empty_author() {
 		$my_author_id = $this->make_user_by_role( 'author' );
 
@@ -128,6 +159,9 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 'Test', $out->post_title );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_newPost
+	 */
 	function test_post_thumbnail() {
 		add_theme_support( 'post-thumbnails' );
 
@@ -148,6 +182,9 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase {
 		remove_theme_support( 'post-thumbnails' );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_newPost
+	 */
 	function test_incapable_set_post_type_as_page() {
 		$this->make_user_by_role( 'author' );
 
@@ -160,6 +197,9 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_newPost
+	 */
 	function test_capable_set_post_type_as_page() {
 		$this->make_user_by_role( 'editor' );
 
@@ -176,9 +216,9 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 'page', $out->post_type );
 	}
 
-
 	/**
 	 * @ticket 16985
+	 * @covers wp_xmlrpc_server::mw_newPost
 	 */
 	function test_draft_post_date() {
 		$this->make_user_by_role( 'editor' );

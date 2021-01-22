@@ -30,12 +30,18 @@ class Tests_XMLRPC_wp_getPages extends WP_XMLRPC_UnitTestCase {
 		);
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPages
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_getPages( array( 1, 'username', 'password' ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPages
+	 */
 	function test_incapable_user() {
 		$this->make_user_by_role( 'contributor' );
 
@@ -44,6 +50,9 @@ class Tests_XMLRPC_wp_getPages extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPages
+	 */
 	function test_capable_user() {
 		$results = $this->myxmlrpcserver->wp_getPages( array( 1, 'administrator', 'administrator' ) );
 		$this->assertNotIXRError( $results );
@@ -54,6 +63,9 @@ class Tests_XMLRPC_wp_getPages extends WP_XMLRPC_UnitTestCase {
 		}
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getPages
+	 */
 	function remove_editor_edit_page_cap( $caps, $cap, $user_id, $args ) {
 		if ( in_array( $cap, array( 'edit_page', 'edit_others_pages' ), true ) ) {
 			if ( $user_id === self::$editor_id && $args[0] === self::$post_id ) {
@@ -65,6 +77,7 @@ class Tests_XMLRPC_wp_getPages extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_getPages
 	 * @ticket 20629
 	 */
 	function test_semi_capable_user() {

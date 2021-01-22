@@ -5,12 +5,18 @@
  */
 class Tests_XMLRPC_wp_getTaxonomy extends WP_XMLRPC_UnitTestCase {
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTaxonomy
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_getTaxonomy( array( 1, 'username', 'password', 'category' ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTaxonomy
+	 */
 	function test_empty_taxonomy() {
 		$this->make_user_by_role( 'editor' );
 
@@ -20,6 +26,9 @@ class Tests_XMLRPC_wp_getTaxonomy extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Invalid taxonomy.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTaxonomy
+	 */
 	function test_invalid_taxonomy() {
 		$this->make_user_by_role( 'editor' );
 
@@ -29,6 +38,9 @@ class Tests_XMLRPC_wp_getTaxonomy extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Invalid taxonomy.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTaxonomy
+	 */
 	function test_incapable_user() {
 		$this->make_user_by_role( 'subscriber' );
 
@@ -38,6 +50,9 @@ class Tests_XMLRPC_wp_getTaxonomy extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Sorry, you are not allowed to assign terms in this taxonomy.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTaxonomy
+	 */
 	function test_taxonomy_validated() {
 		$this->make_user_by_role( 'editor' );
 
@@ -45,6 +60,9 @@ class Tests_XMLRPC_wp_getTaxonomy extends WP_XMLRPC_UnitTestCase {
 		$this->assertNotIXRError( $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTaxonomy
+	 */
 	function test_prepare_taxonomy() {
 		$this->make_user_by_role( 'editor' );
 
@@ -62,6 +80,7 @@ class Tests_XMLRPC_wp_getTaxonomy extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_getTaxonomy
 	 * @ticket 51493
 	 */
 	function test_taxonomy_with_menu_field_specified() {

@@ -8,6 +8,10 @@ require_once ABSPATH . WPINC . '/class-wp-xmlrpc-server.php';
  * @group xmlrpc
  */
 class Tests_XMLRPC_Basic extends WP_XMLRPC_UnitTestCase {
+
+	/**
+	 * @covers wp_xmlrpc_server::wp_getOptions
+	 */
 	function test_enabled() {
 		$result = $this->myxmlrpcserver->wp_getOptions( array( 1, 'username', 'password' ) );
 
@@ -16,6 +20,9 @@ class Tests_XMLRPC_Basic extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getOptions
+	 */
 	function test_disabled() {
 		add_filter( 'xmlrpc_enabled', '__return_false' );
 
@@ -25,6 +32,11 @@ class Tests_XMLRPC_Basic extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 405, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::login_pass_ok
+	 * @expectedDeprecated
+	 * @covers wp_xmlrpc_server::login
+	 */
 	function test_login_pass_ok() {
 		$user_id = $this->make_user_by_role( 'subscriber' );
 
@@ -32,6 +44,11 @@ class Tests_XMLRPC_Basic extends WP_XMLRPC_UnitTestCase {
 		$this->assertInstanceOf( 'WP_User', $this->myxmlrpcserver->login( 'subscriber', 'subscriber' ) );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::login_pass_ok
+	 * @expectedDeprecated
+	 * @covers wp_xmlrpc_server::login
+	 */
 	function test_login_pass_bad() {
 		$user_id = $this->make_user_by_role( 'subscriber' );
 
@@ -43,6 +60,7 @@ class Tests_XMLRPC_Basic extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::multiCall
 	 * @ticket 34336
 	 */
 	function test_multicall_invalidates_all_calls_after_invalid_call() {
@@ -106,6 +124,7 @@ class Tests_XMLRPC_Basic extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @coversNothing
 	 * @ticket 36586
 	 */
 	function test_isStruct_on_non_numerically_indexed_array() {

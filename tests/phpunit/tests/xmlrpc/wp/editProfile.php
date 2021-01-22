@@ -6,12 +6,18 @@
  */
 class Tests_XMLRPC_wp_editProfile extends WP_XMLRPC_UnitTestCase {
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editProfile
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_editProfile( array( 1, 'username', 'password', array() ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editProfile
+	 */
 	function test_subscriber_profile() {
 		$subscriber_id = $this->make_user_by_role( 'subscriber' );
 
@@ -39,6 +45,9 @@ class Tests_XMLRPC_wp_editProfile extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( $new_data['bio'], $user_data->description );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editProfile
+	 */
 	function test_ignore_password_change() {
 		$this->make_user_by_role( 'author' );
 		$new_pass = 'newpassword';
@@ -54,6 +63,9 @@ class Tests_XMLRPC_wp_editProfile extends WP_XMLRPC_UnitTestCase {
 		$this->assertWPError( $auth_new );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_editProfile
+	 */
 	function test_ignore_email_change() {
 		$editor_id = $this->make_user_by_role( 'editor' );
 		$new_email = 'notaneditor@example.com';

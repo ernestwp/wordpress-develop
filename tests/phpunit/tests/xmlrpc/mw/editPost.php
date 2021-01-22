@@ -5,6 +5,9 @@
  */
 class Tests_XMLRPC_mw_editPost extends WP_XMLRPC_UnitTestCase {
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_editPost
+	 */
 	function test_invalid_username_password() {
 		$post   = array();
 		$result = $this->myxmlrpcserver->mw_editPost( array( 1, 'username', 'password', $post ) );
@@ -12,6 +15,9 @@ class Tests_XMLRPC_mw_editPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_editPost
+	 */
 	function test_edit_own_post() {
 		$contributor_id = $this->make_user_by_role( 'contributor' );
 		$post           = array(
@@ -30,6 +36,9 @@ class Tests_XMLRPC_mw_editPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( $new_title, $out->post_title );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_editPost
+	 */
 	function test_capable_edit_others_post() {
 		$this->make_user_by_role( 'editor' );
 		$contributor_id = $this->make_user_by_role( 'contributor' );
@@ -50,6 +59,9 @@ class Tests_XMLRPC_mw_editPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( $new_title, $out->post_title );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_editPost
+	 */
 	function test_incapable_edit_others_post() {
 		$this->make_user_by_role( 'contributor' );
 		$author_id = $this->make_user_by_role( 'author' );
@@ -71,6 +83,9 @@ class Tests_XMLRPC_mw_editPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( $original_title, $out->post_title );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_editPost
+	 */
 	function test_capable_reassign_author() {
 		$contributor_id = $this->make_user_by_role( 'contributor' );
 		$author_id      = $this->make_user_by_role( 'author' );
@@ -91,6 +106,9 @@ class Tests_XMLRPC_mw_editPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertEquals( $author_id, $out->post_author );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_editPost
+	 */
 	function test_incapable_reassign_author() {
 		$contributor_id = $this->make_user_by_role( 'contributor' );
 		$author_id      = $this->make_user_by_role( 'author' );
@@ -112,6 +130,7 @@ class Tests_XMLRPC_mw_editPost extends WP_XMLRPC_UnitTestCase {
 
 	/**
 	 * @ticket 24916
+	 * @covers wp_xmlrpc_server::mw_editPost
 	 */
 	function test_capable_reassign_author_to_self() {
 		$contributor_id = $this->make_user_by_role( 'contributor' );
@@ -132,6 +151,9 @@ class Tests_XMLRPC_mw_editPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertEquals( $editor_id, $out->post_author );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_editPost
+	 */
 	function test_post_thumbnail() {
 		add_theme_support( 'post-thumbnails' );
 
@@ -179,6 +201,9 @@ class Tests_XMLRPC_mw_editPost extends WP_XMLRPC_UnitTestCase {
 		remove_theme_support( 'post-thumbnails' );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mw_editPost
+	 */
 	function test_edit_basic_post_info() {
 		$contributor_id = $this->make_user_by_role( 'contributor' );
 
@@ -229,6 +254,7 @@ class Tests_XMLRPC_mw_editPost extends WP_XMLRPC_UnitTestCase {
 
 	/**
 	 * @ticket 20662
+	 * @covers wp_xmlrpc_server::mw_editPost
 	 */
 	function test_make_post_sticky() {
 		$author_id = $this->make_user_by_role( 'editor' );
@@ -246,7 +272,10 @@ class Tests_XMLRPC_mw_editPost extends WP_XMLRPC_UnitTestCase {
 		$this->assertTrue( $result );
 	}
 
-	// Not allowed since [19914].
+	/**
+	 * Not allowed since [19914].
+	 * @covers wp_xmlrpc_server::mw_editPost
+	 */
 	function test_change_post_type() {
 		$contributor_id = $this->make_user_by_role( 'contributor' );
 
@@ -264,6 +293,7 @@ class Tests_XMLRPC_mw_editPost extends WP_XMLRPC_UnitTestCase {
 
 	/**
 	 * @ticket 16980
+	 * @covers wp_xmlrpc_server::mw_editPost
 	 */
 	function test_empty_not_null() {
 		$editor_id = $this->make_user_by_role( 'editor' );
@@ -296,6 +326,7 @@ class Tests_XMLRPC_mw_editPost extends WP_XMLRPC_UnitTestCase {
 
 	/**
 	 * @ticket 35874
+	 * @covers wp_xmlrpc_server::mw_editPost
 	 */
 	function test_draft_not_prematurely_published() {
 		$editor_id = $this->make_user_by_role( 'editor' );

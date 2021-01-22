@@ -5,12 +5,18 @@
  */
 class Tests_XMLRPC_wp_deletePost extends WP_XMLRPC_UnitTestCase {
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_deletePost
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_deletePost( array( 1, 'username', 'password', 0 ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_deletePost
+	 */
 	function test_invalid_post() {
 		$this->make_user_by_role( 'editor' );
 
@@ -19,6 +25,9 @@ class Tests_XMLRPC_wp_deletePost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 404, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_deletePost
+	 */
 	function test_incapable_user() {
 		$this->make_user_by_role( 'subscriber' );
 		$post_id = self::factory()->post->create();
@@ -28,6 +37,9 @@ class Tests_XMLRPC_wp_deletePost extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_deletePost
+	 */
 	function test_post_deleted() {
 		$this->make_user_by_role( 'editor' );
 		$post_id = self::factory()->post->create();

@@ -27,12 +27,18 @@ class Tests_XMLRPC_wp_restoreRevision extends WP_XMLRPC_UnitTestCase {
 		$this->revision_id = $revision->ID;
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_restoreRevision
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_restoreRevision( array( 1, 'username', 'password', $this->revision_id ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_restoreRevision
+	 */
 	function test_incapable_user() {
 		$this->make_user_by_role( 'subscriber' );
 
@@ -41,6 +47,9 @@ class Tests_XMLRPC_wp_restoreRevision extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 401, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_restoreRevision
+	 */
 	function test_capable_user() {
 		$this->make_user_by_role( 'editor' );
 
@@ -48,6 +57,9 @@ class Tests_XMLRPC_wp_restoreRevision extends WP_XMLRPC_UnitTestCase {
 		$this->assertNotIXRError( $result );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_restoreRevision
+	 */
 	function test_revision_restored() {
 		$this->make_user_by_role( 'editor' );
 

@@ -15,12 +15,18 @@ class Tests_XMLRPC_wp_getTerm extends WP_XMLRPC_UnitTestCase {
 		);
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTerm
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_getTerm( array( 1, 'username', 'password', 'category', 1 ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTerm
+	 */
 	function test_empty_taxonomy() {
 		$this->make_user_by_role( 'editor' );
 
@@ -30,6 +36,9 @@ class Tests_XMLRPC_wp_getTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Invalid taxonomy.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTerm
+	 */
 	function test_invalid_taxonomy() {
 		$this->make_user_by_role( 'editor' );
 
@@ -39,6 +48,9 @@ class Tests_XMLRPC_wp_getTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Invalid taxonomy.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTerm
+	 */
 	function test_incapable_user() {
 		$this->make_user_by_role( 'subscriber' );
 
@@ -48,7 +60,9 @@ class Tests_XMLRPC_wp_getTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Sorry, you are not allowed to assign this term.' ), $result->message );
 	}
 
-
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTerm
+	 */
 	function test_empty_term() {
 		$this->make_user_by_role( 'editor' );
 
@@ -58,6 +72,9 @@ class Tests_XMLRPC_wp_getTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Empty Term.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTerm
+	 */
 	function test_invalid_term() {
 		$this->make_user_by_role( 'editor' );
 
@@ -67,6 +84,9 @@ class Tests_XMLRPC_wp_getTerm extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Invalid term ID.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTerm
+	 */
 	function test_valid_term() {
 		$this->make_user_by_role( 'editor' );
 
@@ -100,6 +120,7 @@ class Tests_XMLRPC_wp_getTerm extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @covers wp_xmlrpc_server::wp_getTerm
 	 * @ticket 35991
 	 */
 	public function test_get_term_meta() {

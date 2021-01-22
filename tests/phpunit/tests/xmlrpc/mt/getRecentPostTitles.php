@@ -5,12 +5,18 @@
  */
 class Tests_XMLRPC_mt_getRecentPostTitles extends WP_XMLRPC_UnitTestCase {
 
+	/**
+	 * @covers wp_xmlrpc_server::mt_getRecentPostTitles
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->mt_getRecentPostTitles( array( 1, 'username', 'password' ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mt_getRecentPostTitles
+	 */
 	function test_no_posts() {
 		$this->make_user_by_role( 'author' );
 
@@ -19,6 +25,9 @@ class Tests_XMLRPC_mt_getRecentPostTitles extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 500, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mt_getRecentPostTitles
+	 */
 	function test_no_editable_posts() {
 		$this->make_user_by_role( 'author' );
 		$editor = $this->make_user_by_role( 'editor' );
@@ -29,6 +38,9 @@ class Tests_XMLRPC_mt_getRecentPostTitles extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 0, count( $result ) );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::mt_getRecentPostTitles
+	 */
 	function test_date() {
 		$this->make_user_by_role( 'author' );
 

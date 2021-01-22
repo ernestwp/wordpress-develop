@@ -8,6 +8,7 @@ require_once ABSPATH . WPINC . '/class-wp-http-ixr-client.php';
 class Tests_XMLRPC_Client extends WP_XMLRPC_UnitTestCase {
 
 	/**
+	 * @coversNothing
 	 * @ticket 26947
 	 */
 	function test_ixr_client_allows_query_strings() {
@@ -18,6 +19,7 @@ class Tests_XMLRPC_Client extends WP_XMLRPC_UnitTestCase {
 	}
 
 	/**
+	 * @coversNothing
 	 * @ticket 26947
 	 */
 	function test_wp_ixr_client_allows_query_strings() {

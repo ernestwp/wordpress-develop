@@ -33,12 +33,18 @@ class Tests_XMLRPC_wp_getComment extends WP_XMLRPC_UnitTestCase {
 		self::$child_comment_id   = wp_insert_comment( self::$child_comment_data );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getComment
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_getComment( array( 1, 'username', 'password', self::$parent_comment_id ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getComment
+	 */
 	function test_incapable_user() {
 		$this->make_user_by_role( 'contributor' );
 
@@ -47,6 +53,9 @@ class Tests_XMLRPC_wp_getComment extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getComment
+	 */
 	function test_valid_comment() {
 		$this->make_user_by_role( 'editor' );
 
@@ -83,6 +92,9 @@ class Tests_XMLRPC_wp_getComment extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( self::$parent_comment_data['comment_author_email'], $result['author_email'] );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getComment
+	 */
 	function test_valid_child_comment() {
 		$this->make_user_by_role( 'editor' );
 
@@ -93,6 +105,9 @@ class Tests_XMLRPC_wp_getComment extends WP_XMLRPC_UnitTestCase {
 		$this->assertEquals( self::$parent_comment_id, $result['parent'] );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getComment
+	 */
 	function test_invalid_id() {
 		$this->make_user_by_role( 'editor' );
 

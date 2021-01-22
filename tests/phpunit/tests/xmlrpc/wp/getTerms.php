@@ -5,12 +5,18 @@
  */
 class Tests_XMLRPC_wp_getTerms extends WP_XMLRPC_UnitTestCase {
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTerms
+	 */
 	function test_invalid_username_password() {
 		$result = $this->myxmlrpcserver->wp_getTerms( array( 1, 'username', 'password', 'category' ) );
 		$this->assertIXRError( $result );
 		$this->assertSame( 403, $result->code );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTerms
+	 */
 	function test_empty_taxonomy() {
 		$this->make_user_by_role( 'editor' );
 
@@ -20,6 +26,9 @@ class Tests_XMLRPC_wp_getTerms extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Invalid taxonomy.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTerms
+	 */
 	function test_invalid_taxonomy() {
 		$this->make_user_by_role( 'editor' );
 
@@ -29,6 +38,9 @@ class Tests_XMLRPC_wp_getTerms extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Invalid taxonomy.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTerms
+	 */
 	function test_incapable_user() {
 		$this->make_user_by_role( 'subscriber' );
 
@@ -38,6 +50,9 @@ class Tests_XMLRPC_wp_getTerms extends WP_XMLRPC_UnitTestCase {
 		$this->assertSame( __( 'Sorry, you are not allowed to assign terms in this taxonomy.' ), $result->message );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTerms
+	 */
 	function test_valid_terms() {
 		$this->make_user_by_role( 'editor' );
 
@@ -62,6 +77,9 @@ class Tests_XMLRPC_wp_getTerms extends WP_XMLRPC_UnitTestCase {
 		}
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTerms
+	 */
 	function test_custom_taxonomy() {
 		$this->make_user_by_role( 'editor' );
 
@@ -104,6 +122,9 @@ class Tests_XMLRPC_wp_getTerms extends WP_XMLRPC_UnitTestCase {
 		unset( $GLOBALS['wp_taxonomies'][ $tax_name ] );
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTerms
+	 */
 	function test_term_ordering() {
 		$this->make_user_by_role( 'editor' );
 
@@ -130,6 +151,9 @@ class Tests_XMLRPC_wp_getTerms extends WP_XMLRPC_UnitTestCase {
 		}
 	}
 
+	/**
+	 * @covers wp_xmlrpc_server::wp_getTerms
+	 */
 	function test_terms_search() {
 		$this->make_user_by_role( 'editor' );
 
